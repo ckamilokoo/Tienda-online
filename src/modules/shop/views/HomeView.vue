@@ -101,10 +101,7 @@
       >
         <a href="#">
           <div class="relative flex items-end overflow-hidden rounded-xl">
-            <img
-              src="https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-              alt="Hotel Photo"
-            />
+            <img :src="producto.imagen_url" alt="Hotel Photo" />
             <div
               class="flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
             >
@@ -128,7 +125,7 @@
           </div>
 
           <div class="mt-1 p-2">
-            <h2 class="text-slate-700">{{ producto.name }}</h2>
+            <h2 class="text-slate-700">{{ producto.nombre }}</h2>
 
             <div class="mt-3 flex items-end justify-between">
               <p class="text-lg font-bold text-blue-500">${{ producto.precio }}</p>
@@ -163,8 +160,12 @@
 
 <script setup>
 import { getProducts } from '@/modules/products/actions';
+import { useQuery } from '@tanstack/vue-query';
 
-const productos = getProducts();
+const { data: productos } = useQuery({
+  queryKey: ['productos'],
+  queryFn: () => getProducts(),
+});
 </script>
 
 <style scoped></style>

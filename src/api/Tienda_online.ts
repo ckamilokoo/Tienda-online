@@ -5,6 +5,5 @@ const TiendaApi = axios.create({
 });
 
 // Interceptores
-console.log(import.meta.env);
 
 export { TiendaApi };

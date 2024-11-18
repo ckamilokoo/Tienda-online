@@ -1,9 +1,11 @@
 import { TiendaApi } from '@/api/Tienda_online';
 import type { Producto } from '@/modules/products/interfaces/producto.interface';
 
-export const getProducts = async (page: number = 1, limit: number = 10) => {
+export const getProducts = async (page: number = 0, limit: number = 8) => {
   try {
-    const { data } = await TiendaApi.get<Producto[]>(`/productos`);
+    const { data } = await TiendaApi.get<Producto[]>(
+      `/productos/?limit=${limit}&skip=${page * limit}`,
+    );
     console.log(data);
     return data;
   } catch (error) {
