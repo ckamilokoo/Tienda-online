@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { AuthStatus, type User } from '../interfaces/Auth.Response';
 import { loginAction } from '../actions/login.actions';
+import { registroAction } from '../actions/register.actions';
 import { useLocalStorage } from '@vueuse/core';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -25,6 +26,24 @@ export const useAuthStore = defineStore('auth', () => {
       return logout();
     }
   };
+
+  const registro = async (username: string, password: string) => {
+    try {
+      const RegistroResp = await registroAction(username, password);
+      if (!RegistroResp.ok) {
+        logout();
+        return false;
+      }
+
+      user.value = RegistroResp.user;
+      token.value = RegistroResp.token;
+      authStatus.value = AuthStatus.Autorizado;
+      return true;
+    } catch (error) {
+      return { ok: false, mensaje: 'Error al registrar al usuario' };
+    }
+  };
+
   const logout = () => {
     authStatus.value = AuthStatus.NoAutorizado;
     user.value = undefined;
@@ -44,5 +63,6 @@ export const useAuthStore = defineStore('auth', () => {
 
     // Actions
     login,
+    registro,
   };
 });
