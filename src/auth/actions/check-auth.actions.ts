@@ -27,6 +27,7 @@ export const checkAuthActions = async (): Promise<CheckError | CheckExistoso> =>
     };
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 401) {
+      console.log(error);
       return {
         ok: false,
       };

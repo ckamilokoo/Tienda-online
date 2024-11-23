@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import layoutshop from '../modules/shop/layouts/ShopLayout.vue';
 import { authRoutes } from '@/auth/routes';
+import { adminRoutes } from '@/modules/admin/routes';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +18,11 @@ const router = createRouter({
         },
       ],
     },
+    // RUTAS PARA LOGIN Y REGISTRO
     authRoutes,
+
+    // RUTAS PARA EL ADMIN
+    adminRoutes,
   ],
 });
 

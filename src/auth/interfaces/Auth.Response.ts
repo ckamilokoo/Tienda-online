@@ -4,6 +4,10 @@ export interface Authresponse {
   user: User;
 }
 
+export interface Authresponse2 {
+  user: User;
+}
+
 export interface User {
   username: string;
   rol: string;
