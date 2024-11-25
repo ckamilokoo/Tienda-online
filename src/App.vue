@@ -1,5 +1,6 @@
 <template>
-  <RouterView />
+  <FullScreenLoader v-if="authStore.isCheking" />
+  <RouterView v-else />
   <VueQueryDevtools />
 </template>
 
@@ -8,6 +9,7 @@ import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { useAuthStore } from './auth/stores/auth.store';
 import { AuthStatus } from './auth/interfaces/Auth.Response';
 import { useRoute, useRouter } from 'vue-router';
+import FullScreenLoader from './modules/common/componentes/FullScreenLoader.vue';
 
 const authStore = useAuthStore();
 

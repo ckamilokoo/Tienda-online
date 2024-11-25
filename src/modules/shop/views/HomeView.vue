@@ -94,7 +94,7 @@
   </div>
   <!-- Product List -->
   <ProductosLista v-else :productos="productos" />
-  <BotonPaginacion :has-moredata="!!productos && productos.length < 8" :page="page" />
+  <BotonPaginacion :has-moredata="!!productos && productos.length < 8" :page="pagina" />
 </template>
 
 <script setup lang="ts">
@@ -102,33 +102,24 @@ import BotonPaginacion from '@/modules/common/componentes/BotonPaginacion.vue';
 import { getProducts } from '@/modules/products/actions';
 import ProductosLista from '@/modules/products/componentes/ProductosLista.vue';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
-import { useRoute } from 'vue-router';
 
-import { ref, watch, watchEffect } from 'vue';
+import { watchEffect } from 'vue';
+import { usePaginacion } from '@/modules/common/composable/usePaginacion';
 
-const router = useRoute();
-const page = ref(Number(router.query.page || 1));
 const queryclient = useQueryClient();
+const { pagina } = usePaginacion();
 
-console.log({ page });
+console.log({ pagina });
 
 const { data: productos } = useQuery({
-  queryKey: ['productos', { page: page }],
-  queryFn: () => getProducts(page.value),
+  queryKey: ['productos', { page: pagina }],
+  queryFn: () => getProducts(pagina.value),
 });
-
-watch(
-  () => router.query.page,
-  (NewPage) => {
-    page.value = Number(NewPage || 1);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  },
-);
 
 watchEffect(() => {
   queryclient.prefetchQuery({
-    queryKey: ['productos', { page: page.value + 1 }],
-    queryFn: () => getProducts(page.value + 1),
+    queryKey: ['productos', { page: pagina.value + 1 }],
+    queryFn: () => getProducts(pagina.value + 1),
   });
 });
 </script>
